@@ -2,12 +2,17 @@ package cmd
 
 import (
 	"os"
+	"runtime/debug"
 	"strconv"
 	"time"
 
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/koki-develop/sheep/internal/model"
 	"github.com/spf13/cobra"
+)
+
+var (
+	version string
 )
 
 var rootCmd = &cobra.Command{
@@ -47,4 +52,13 @@ func Execute() {
 	if err != nil {
 		os.Exit(1)
 	}
+}
+
+func init() {
+	if version == "" {
+		if info, ok := debug.ReadBuildInfo(); ok {
+			version = info.Main.Version
+		}
+	}
+	rootCmd.Version = version
 }
