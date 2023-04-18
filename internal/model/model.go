@@ -20,20 +20,18 @@ type Config struct {
 }
 
 type Model struct {
-	aborted     bool
-	duration    time.Duration
-	windowWidth int
-	keymap      keymap
-	frame       int
-	sheep       sheep
-	awake       bool
+	aborted  bool
+	duration time.Duration
+	keymap   keymap
+	frame    int
+	sheep    sheep
+	awake    bool
 }
 
 func New(cfg *Config) *Model {
 	return &Model{
-		aborted:     false,
-		duration:    cfg.Duration,
-		windowWidth: 0,
+		aborted:  false,
+		duration: cfg.Duration,
 		keymap: keymap{
 			Abort: key.NewBinding(key.WithKeys(tea.KeyCtrlC.String())),
 		},
@@ -67,8 +65,6 @@ type tickMsg struct{}
 
 func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
-	case tea.WindowSizeMsg:
-		m.windowWidth = msg.Width
 	case sleptMsg:
 		m.awake = true
 		return m, tea.Quit
