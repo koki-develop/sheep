@@ -14,12 +14,16 @@ var rootCmd = &cobra.Command{
 	Use:          "sheep [time]",
 	Short:        "Sleep with Sheep",
 	Long:         "Sleep with Sheep.",
-	Args:         cobra.ExactArgs(1),
+	Args:         cobra.MaximumNArgs(1),
 	SilenceUsage: true,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		t, err := strconv.ParseFloat(args[0], 64)
-		if err != nil {
-			return err
+		var t float64
+		if len(args) > 0 {
+			f, err := strconv.ParseFloat(args[0], 64)
+			if err != nil {
+				return err
+			}
+			t = f
 		}
 
 		base := time.Second
