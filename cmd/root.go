@@ -16,6 +16,9 @@ var rootCmd = &cobra.Command{
 		if _, err := p.Run(); err != nil {
 			return err
 		}
+		if m.Abort {
+			os.Exit(130)
+		}
 
 		return nil
 	},
