@@ -13,6 +13,10 @@ import (
 
 var (
 	version string
+
+	flagSecond bool
+	flagMinute bool
+	flagHour   bool
 )
 
 var rootCmd = &cobra.Command{
@@ -32,6 +36,15 @@ var rootCmd = &cobra.Command{
 		}
 
 		base := time.Second
+		switch {
+		case flagSecond:
+			base = time.Second
+		case flagMinute:
+			base = time.Minute
+		case flagHour:
+			base = time.Hour
+		}
+
 		m := model.New(&model.Config{
 			Duration: time.Duration(t * float64(base)),
 		})
@@ -61,4 +74,9 @@ func init() {
 		}
 	}
 	rootCmd.Version = version
+
+	rootCmd.Flags().BoolVar(&flagSecond, "second", false, "set the time unit to seconds (default)")
+	rootCmd.Flags().BoolVar(&flagMinute, "minute", false, "set the time unit to minutes")
+	rootCmd.Flags().BoolVar(&flagHour, "hour", false, "set the time unit to hours")
+	rootCmd.MarkFlagsMutuallyExclusive("second", "minute", "hour")
 }
