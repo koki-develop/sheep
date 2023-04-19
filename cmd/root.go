@@ -33,8 +33,8 @@ var rootCmd = &cobra.Command{
 			return nil
 		}
 
-		if seconds, err := strconv.Atoi(args[0]); err == nil {
-			duration = time.Duration(seconds) * time.Second
+		if seconds, err := strconv.ParseFloat(args[0], 64); err == nil {
+			duration = time.Duration(seconds * float64(time.Second))
 		} else {
 			duration, err = time.ParseDuration(args[0])
 			if err != nil {
