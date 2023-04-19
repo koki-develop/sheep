@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"errors"
 	"os"
 	"runtime/debug"
 	"strconv"
@@ -13,10 +14,11 @@ import (
 
 var (
 	version string
+)
 
-	flagSecond bool
-	flagMinute bool
-	flagHour   bool
+var (
+	ErrInvalidDuration = errors.New("invalid duration")
+	ErrArgument        = errors.New("invalid argument")
 )
 
 var rootCmd = &cobra.Command{
@@ -26,27 +28,22 @@ var rootCmd = &cobra.Command{
 	Args:         cobra.MaximumNArgs(1),
 	SilenceUsage: true,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		var t float64
-		if len(args) > 0 {
-			f, err := strconv.ParseFloat(args[0], 64)
-			if err != nil {
-				return err
-			}
-			t = f
+		var duration time.Duration
+		if len(args) == 0 {
+			return ErrArgument
 		}
 
-		base := time.Second
-		switch {
-		case flagSecond:
-			base = time.Second
-		case flagMinute:
-			base = time.Minute
-		case flagHour:
-			base = time.Hour
+		if seconds, err := strconv.Atoi(args[0]); err == nil {
+			duration = time.Duration(seconds) * time.Second
+		} else {
+			duration, err = time.ParseDuration(args[0])
+			if err != nil {
+				return ErrInvalidDuration
+			}
 		}
 
 		m := model.New(&model.Config{
-			Duration: time.Duration(t * float64(base)),
+			Duration: time.Duration(duration),
 		})
 		p := tea.NewProgram(m)
 		if _, err := p.Run(); err != nil {
@@ -75,8 +72,4 @@ func init() {
 	}
 	rootCmd.Version = version
 
-	rootCmd.Flags().BoolVar(&flagSecond, "second", false, "set the time unit to seconds (default)")
-	rootCmd.Flags().BoolVar(&flagMinute, "minute", false, "set the time unit to minutes")
-	rootCmd.Flags().BoolVar(&flagHour, "hour", false, "set the time unit to hours")
-	rootCmd.MarkFlagsMutuallyExclusive("second", "minute", "hour")
 }
