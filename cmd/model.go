@@ -53,7 +53,7 @@ func (m *Model) Init() tea.Cmd {
 }
 
 func (m *Model) View() string {
-	if m.awake {
+	if m.awake || m.aborted {
 		return m.sheep.Awake
 	} else {
 		return m.sheep.Asleep[m.frame]
