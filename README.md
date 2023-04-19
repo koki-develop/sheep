@@ -10,6 +10,8 @@ Sleep with Sheep.
 
 ![demo](./assets/demo.gif)
 
+## Contents
+
 - [Installation](#installation)
 - [Usage](#usage)
 - [LICENSE](#license)
