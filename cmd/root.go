@@ -41,7 +41,7 @@ var rootCmd = &cobra.Command{
 			}
 		}
 
-		m := New(&Config{
+		m := NewModel(&Config{
 			Duration: time.Duration(duration),
 		})
 		p := tea.NewProgram(m)

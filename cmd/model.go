@@ -28,7 +28,7 @@ type Model struct {
 	awake    bool
 }
 
-func New(cfg *Config) *Model {
+func NewModel(cfg *Config) *Model {
 	return &Model{
 		aborted:  false,
 		duration: cfg.Duration,
