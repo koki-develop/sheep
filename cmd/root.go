@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"errors"
+	"fmt"
 	"os"
 	"runtime/debug"
 	"strconv"
@@ -17,7 +18,6 @@ var (
 
 var (
 	ErrInvalidDuration = errors.New("invalid duration")
-	ErrArgument        = errors.New("invalid argument")
 )
 
 var rootCmd = &cobra.Command{
@@ -29,7 +29,8 @@ var rootCmd = &cobra.Command{
 	RunE: func(cmd *cobra.Command, args []string) error {
 		var duration time.Duration
 		if len(args) == 0 {
-			return ErrArgument
+			fmt.Print(simpleSheep.Awake)
+			return nil
 		}
 
 		if seconds, err := strconv.Atoi(args[0]); err == nil {
