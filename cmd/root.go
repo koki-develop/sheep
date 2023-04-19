@@ -8,7 +8,6 @@ import (
 	"time"
 
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/koki-develop/sheep/internal/model"
 	"github.com/spf13/cobra"
 )
 
@@ -42,7 +41,7 @@ var rootCmd = &cobra.Command{
 			}
 		}
 
-		m := model.New(&model.Config{
+		m := New(&Config{
 			Duration: time.Duration(duration),
 		})
 		p := tea.NewProgram(m)
