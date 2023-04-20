@@ -45,7 +45,7 @@ var rootCmd = &cobra.Command{
 		m := NewModel(&Config{
 			Duration: time.Duration(duration),
 		})
-		p := tea.NewProgram(m)
+		p := tea.NewProgram(m, tea.WithOutput(os.Stderr))
 		if _, err := p.Run(); err != nil {
 			return err
 		}
