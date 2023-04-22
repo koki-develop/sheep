@@ -1,0 +1,33 @@
+name: update demo
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update-demo:
+    permissions:
+      contents: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v4
+        with:
+          go-version-file: go.mod
+      - name: install sheep
+        run: |
+          go install .
+          sheep --version
+
+      - uses: charmbracelet/vhs-action@v1
+        with:
+          path: ./tapes/demo.tape
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: update demo
+          body: ${{ github.sha }}
+          branch: docs/update-demo
+          branch-suffix: short-commit-hash
