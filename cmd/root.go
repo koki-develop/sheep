@@ -13,6 +13,8 @@ import (
 
 var (
 	version string
+
+	flagBeep bool
 )
 
 var rootCmd = &cobra.Command{
@@ -44,6 +46,9 @@ var rootCmd = &cobra.Command{
 		if _, err := p.Run(); err != nil {
 			return err
 		}
+		if flagBeep {
+			fmt.Fprint(os.Stderr, "\a")
+		}
 		if m.Aborted() {
 			os.Exit(130)
 		}
@@ -67,4 +72,5 @@ func init() {
 	}
 	rootCmd.Version = version
 
+	rootCmd.Flags().BoolVarP(&flagBeep, "beep", "b", false, "beep when the sheep wakes up")
 }
