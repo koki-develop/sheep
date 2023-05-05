@@ -39,7 +39,8 @@ Download the binary from the [releases page](https://github.com/koki-develop/she
 ```sh
 $ sheep [time]
 # e.g.
-$ sheep 5
+$ sheep 5 # 5 seconds
+$ sheep 1h30m20s # 1 hour, 30 minutes, 20 seconds
 ```
 
 ## LICENSE
