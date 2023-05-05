@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"errors"
 	"fmt"
 	"os"
 	"runtime/debug"
@@ -14,10 +13,6 @@ import (
 
 var (
 	version string
-)
-
-var (
-	ErrInvalidDuration = errors.New("invalid duration")
 )
 
 var rootCmd = &cobra.Command{
@@ -38,7 +33,7 @@ var rootCmd = &cobra.Command{
 		} else {
 			duration, err = time.ParseDuration(args[0])
 			if err != nil {
-				return ErrInvalidDuration
+				return err
 			}
 		}
 
