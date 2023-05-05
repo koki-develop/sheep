@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"errors"
 	"fmt"
 	"os"
 	"runtime/debug"
@@ -14,10 +13,8 @@ import (
 
 var (
 	version string
-)
 
-var (
-	ErrInvalidDuration = errors.New("invalid duration")
+	flagBeep bool
 )
 
 var rootCmd = &cobra.Command{
@@ -38,7 +35,7 @@ var rootCmd = &cobra.Command{
 		} else {
 			duration, err = time.ParseDuration(args[0])
 			if err != nil {
-				return ErrInvalidDuration
+				return err
 			}
 		}
 
@@ -48,6 +45,9 @@ var rootCmd = &cobra.Command{
 		p := tea.NewProgram(m, tea.WithOutput(os.Stderr))
 		if _, err := p.Run(); err != nil {
 			return err
+		}
+		if flagBeep {
+			fmt.Fprint(os.Stderr, "\a")
 		}
 		if m.Aborted() {
 			os.Exit(130)
@@ -72,4 +72,5 @@ func init() {
 	}
 	rootCmd.Version = version
 
+	rootCmd.Flags().BoolVarP(&flagBeep, "beep", "b", false, "beep when the sheep wakes up")
 }
