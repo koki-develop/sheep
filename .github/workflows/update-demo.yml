@@ -19,7 +19,7 @@ jobs:
           go install .
           sheep --version
 
-      - uses: charmbracelet/vhs-action@v1
+      - uses: charmbracelet/vhs-action@v2
         with:
           path: ./tapes/demo.tape
           token: ${{ secrets.GITHUB_TOKEN }}
