@@ -1,6 +1,6 @@
 module github.com/koki-develop/sheep
 
-go 1.20
+go 1.26.2
 
 require (
 	github.com/charmbracelet/bubbles v0.16.1
@@ -9,7 +9,6 @@ require (
 )
 
 require (
-	github.com/aymanbagabas/go-osc52 v1.2.1 // indirect
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
 	github.com/containerd/console v1.0.4-0.20230313162750-1ae8d489ac81 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
